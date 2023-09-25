@@ -34,13 +34,12 @@ pub struct App {
 }
 
 impl App {
-    pub fn run<S>(name: S, world: World) -> EngineResult<()>
+    pub fn run<S>(name: S, event_loop: EventLoop<()>, world: World) -> EngineResult<()>
     where
         S: Into<String>,
     {
         let name: String = name.into();
 
-        let event_loop = Self::make_event_loop();
         let window = Self::make_window(
             &event_loop,
             true,
@@ -95,10 +94,6 @@ impl App {
                 _ => (),
             }
         });
-    }
-
-    fn make_event_loop() -> EventLoop<()> {
-        EventLoop::new()
     }
 
     fn make_window<T, S>(

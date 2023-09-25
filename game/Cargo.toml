@@ -1,0 +1,16 @@
+[package]
+name = "game"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "game"
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+engine = { path = "../engine/" }
+
+winit = "0.28.6"
+
+[build-dependencies]
+fs_extra = "1.3"

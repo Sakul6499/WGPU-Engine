@@ -1,4 +1,5 @@
 use std::{
+    env::var,
     fs::read,
     path::{Path, PathBuf},
 };
@@ -12,7 +13,7 @@ impl ResourceManager {
 
     pub fn get_resource_folder_path() -> PathBuf {
         if cfg!(debug_assertions) {
-            Path::new(env!("OUT_DIR")).join(Self::RESOURCE_FOLDER_NAME)
+            Path::new(&var("OUT_DIR").unwrap()).join(Self::RESOURCE_FOLDER_NAME)
         } else {
             Path::new(".").join(Self::RESOURCE_FOLDER_NAME)
         }

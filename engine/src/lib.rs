@@ -2,8 +2,6 @@ pub mod engine;
 
 pub mod app;
 
-pub mod log;
-
 pub mod entities;
 
 // TODO: Camera

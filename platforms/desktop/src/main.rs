@@ -1,5 +1,17 @@
 use std::{fs, path::Path, time::SystemTime};
 
+use winit::event_loop::EventLoop;
+
+use game::game_init;
+
+fn main() {
+    log_init();
+
+    let event_loop = EventLoop::new();
+
+    game_init(event_loop);
+}
+
 pub fn log_init() {
     // Log files for log rotation
     let log_path_0 = Path::new("game-0.log");

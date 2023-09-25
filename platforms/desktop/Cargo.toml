@@ -1,0 +1,12 @@
+[package]
+name = "platform_desktop"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+game = { path = "../../game/" }
+
+winit = "0.28.6"
+log = "0.4"
+fern = "0.6"
+humantime = "2.1"

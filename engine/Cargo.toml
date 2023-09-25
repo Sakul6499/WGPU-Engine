@@ -1,0 +1,21 @@
+[package]
+name = "engine"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "engine"
+crate-type = ["cdylib", "staticlib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+log = "0.4"
+winit = { version = "0.28", features = ["android-native-activity"] }
+wgpu = "0.17"
+toml = "0.8.0"
+serde = { version = "1.0", features = ["derive"] }
+bytemuck = { version = "1.14", features = ["derive"] }
+image = "0.24"
+cgmath = "0.18"
+tobj = { version = "4.0.0", features = ["ahash", "log"] }
+pollster = "0.3.0"
