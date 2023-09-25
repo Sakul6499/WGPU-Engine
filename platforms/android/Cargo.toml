@@ -1,0 +1,71 @@
+[package]
+name = "platform_android"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+game = { path = "../../game/" }
+
+winit = { version = "0.28.6", features = ["android-native-activity"] }
+log = "0.4"
+android_logger = "0.13.3"
+
+[package.metadata.android]
+package = "de.sakulflee.wgpu.game"
+
+build_targets = [
+    "armv7-linux-androideabi",
+    "aarch64-linux-android",
+    "i686-linux-android",
+    "x86_64-linux-android",
+]
+
+assets = "../../game/res/"
+
+# `default` (or unspecified) - Debug symbols, if they exist, are not treated
+#                              specially.
+#
+# `strip`                    - Debug symbols are stripped from the shared
+#                              libraries before being copied into the APK.
+#
+# `split`                    - Functions the same as `strip`, except the debug
+#                              symbols are written to the apk output directory
+#                              alongside the stripped shared libraries, with
+#                              a `.dwarf` extension.
+#
+# Note that the `strip` and `split` options will only have an effect if
+# debug symbols are present in the `.so` file(s) produced by your build, enabling
+# https://doc.rust-lang.org/cargo/reference/profiles.html#strip or
+# https://doc.rust-lang.org/cargo/reference/profiles.html#split-debuginfo
+# in your cargo manifest can cause debug symbols to no longer be present
+# in the `.so`.
+strip = "split"
+
+[package.metadata.android.signing.dev]
+path = "dev.keystore"
+keystore_password = "android"
+
+[package.metadata.android.signing.release]
+path = "release.keystore"
+keystore_password = "android"
+
+[package.metadata.android.sdk]
+min_sdk_version = 23
+target_sdk_version = 34
+max_sdk_version = 34
+
+[[package.metadata.android.uses_feature]]
+name = "android.hardware.vulkan.level"
+required = true
+version = 1
+
+[[package.metadata.android.uses_permission]]
+name = "android.permission.WRITE_EXTERNAL_STORAGE"
+max_sdk_version = 18
+
+[package.metadata.android.application]
+debuggable = true
+resizeable_activity = true

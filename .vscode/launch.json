@@ -4,10 +4,10 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceFolder}/target/debug/wgpu_engine",
+            "name": "Desktop",
+            "program": "${workspaceFolder}/target/debug/platform_desktop",
             "windows": {
-                "program": "${workspaceFolder}/target/debug/wgpu_engine.exe",
+                "program": "${workspaceFolder}/target/debug/platform_desktop.exe",
             },
             "args": [],
             "env": {
@@ -15,7 +15,7 @@
                 "RUST_BACKTRACE": "full"
             },
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Debug Build",
+            "preLaunchTask": "[Desktop] Debug Build",
             "sourceLanguages": [
                 "rust"
             ]

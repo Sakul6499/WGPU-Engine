@@ -2,20 +2,17 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Debug Build",
-            "command": "cargo build",
+            "label": "[Desktop] Debug Build",
+            "command": "cargo build --package platform_desktop",
             "type": "shell",
             "problemMatcher": [
                 "$rustc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build",
         },
         {
-            "label": "Release Build",
-            "command": "cargo build --release",
+            "label": "[Desktop] Release Build",
+            "command": "cargo build --release --package platform_desktop",
             "type": "shell",
             "problemMatcher": [
                 "$rustc"
@@ -23,30 +20,33 @@
             "group": "build"
         },
         {
-            "label": "Release Run",
-            "command": "cargo run --release",
+            "label": "[Android] Debug Build",
+            "command": "cargo apk build --package platform_android",
             "type": "shell",
             "problemMatcher": [
                 "$rustc"
             ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "dependsOn": [
-                "Release Build"
-            ]
+            "group": "build",
         },
         {
-            "label": "Format Code",
+            "label": "[Android] Release Build",
+            "command": "cargo apk build --release --package platform_android",
+            "type": "shell",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "[Code] Format",
             "command": "cargo fmt",
             "type": "shell",
             "problemMatcher": [
                 "$rustc"
-            ],
+            ]
         },
         {
-            "label": "Build Book",
+            "label": "[Book] Build",
             "command": "mdbook build",
             "options": {
                 "cwd": "docs/"
@@ -56,6 +56,113 @@
                 "$rustc"
             ],
             "group": "build"
+        },
+        {
+            "label": "[Android] Install SDK & NDK",
+            "type": "shell",
+            "command": "sdkmanager 'platforms;android-34' 'system-images;android-34;google_apis;x86_64' 'platform-tools' 'emulator' 'ndk-bundle' 'build-tools;34.0.0-rc3'",
+            "problemMatcher": []
+        },
+        {
+            "label": "[Android] Create AVD",
+            "type": "shell",
+            "command": "avdmanager --silent create avd -n avd_34 -k 'system-images;android-34;google_apis;x86_64'; exit",
+            "dependsOn": "[Android] Install SDK & NDK",
+            "problemMatcher": []
+        },
+        {
+            "label": "[Android] Start Android Emulator",
+            "command": "emulator -avd avd_34",
+            "type": "shell",
+            "dependsOn": "[Android] Create AVD",
+            "problemMatcher": []
+        },
+        {
+            "label": "[Android] Attach Logs (ADB LogCat)",
+            "command": "adb logcat RustStdoutStderr:D *:S",
+            "type": "shell",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "[Android] Debug Run",
+            "command": "cargo apk run --package platform_android",
+            "type": "shell",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "options": {
+                "cwd": "platforms/android/",
+                "env": {
+                    "RUST_LOG": "debug",
+                    "RUST_BACKTRACE": "full"
+                },
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "test"
+        },
+        {
+            "label": "[Android] Release Run",
+            "command": "cargo apk run --release --package platform_android",
+            "type": "shell",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "options": {
+                "cwd": "platforms/android/",
+                "env": {
+                    "RUST_LOG": "debug",
+                    "RUST_BACKTRACE": "full"
+                },
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "test"
+        },
+        {
+            "label": "[Android] Debug GDB",
+            "command": "cargo apk gdb --package platform_android",
+            "type": "shell",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "options": {
+                "cwd": "platforms/android/"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "dependsOn": [
+                "[Android] Debug Build"
+            ],
+            "group": "test"
+        },
+        {
+            "label": "[Android] Keystore",
+            "command": "echo 'Release:'; keytool -genkey -v -keystore platforms/android/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000; echo 'Dev:'; keytool -genkey -v -keystore platforms/android/dev.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[Code] Clippy",
+            "command": "cargo clippy --all-targets --all-features -- -D warnings -W clippy::all",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always",
+            },
+            "problemMatcher": [
+                "$rustc"
+            ]
         }
     ]
 }
