@@ -15,3 +15,6 @@ pub use camera_controlling_entity::*;
 
 mod cheese;
 pub use cheese::*;
+
+mod main_scene;
+pub use main_scene::*;

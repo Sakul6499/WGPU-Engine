@@ -2,7 +2,7 @@ use cgmath::{Quaternion, Vector3};
 
 use super::TInstance;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct StandardInstance {
     position: Vector3<f32>,
     rotation: Quaternion<f32>,

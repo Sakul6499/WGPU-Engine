@@ -181,6 +181,10 @@ impl TMesh for StandardMesh {
         &mut self.instances
     }
 
+    fn set_instances(&mut self, instances: Vec<StandardInstance>) {
+        self.instances = instances;
+    }
+
     fn instance_count(&self) -> u32 {
         self.instances.len() as u32
     }

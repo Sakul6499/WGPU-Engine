@@ -12,10 +12,33 @@ use crate::{
 #[derive(Debug, Default)]
 pub struct Cheese {
     mesh: Option<StandardMesh>,
+    instances: Vec<StandardInstance>,
 }
 
 impl Cheese {
     pub const TAG: &str = "Cheese";
+
+    pub fn new(instances: Vec<StandardInstance>) -> Self {
+        Self {
+            mesh: None,
+            instances,
+        }
+    }
+
+    pub fn new_() -> Self {
+        let instances: Vec<StandardInstance> = (-100..=100)
+            .flat_map(|x| {
+                (-100..=100).map(move |z| {
+                    StandardInstance::new(
+                        Vector3::new(x as f32 * 2.5, -1.0, z as f32 * 2.5),
+                        Quaternion::new(0.0, 0.0, 0.0, 0.0),
+                    )
+                })
+            })
+            .collect();
+
+        Self::new(instances)
+    }
 }
 
 impl TEntity for Cheese {
@@ -32,21 +55,10 @@ impl TEntity for Cheese {
     fn prepare_render(&mut self, logical_device: &LogicalDevice) -> EngineResult<()> {
         let material = StandardMaterial::from_path(logical_device, "cheese.jpg")?;
 
-        let instances: Vec<StandardInstance> = (-100..=100)
-            .flat_map(|x| {
-                (-100..=100).map(move |z| {
-                    StandardInstance::new(
-                        Vector3::new(x as f32 * 2.5, -1.0, z as f32 * 2.5),
-                        Quaternion::new(0.0, 0.0, 0.0, 0.0),
-                    )
-                })
-            })
-            .collect();
-
         let mesh = ResourceManager::gltf_instanced_mesh_from_path(
             logical_device,
             "cheese.gltf",
-            instances,
+            self.instances.clone(),
             MaterialLoading::Replace(material),
         )?;
 

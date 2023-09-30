@@ -17,6 +17,7 @@ cgmath = "0.18"
 tobj = { version = "4.0.0", features = ["ahash", "log"] }
 pollster = "0.3.0"
 easy-gltf = "1.1.0"
+rand = "0.8.5"
 
 [build-dependencies]
 fs_extra = "1.3"
