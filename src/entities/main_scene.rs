@@ -70,7 +70,7 @@ impl WorldGenerator {
         let mut output: HashMap<Vector3<i32>, Voxel> = HashMap::new();
         let radius = ((size as f32) / 2.0).pow(2);
 
-        let center = (size / 2) as u32;
+        let center = size / 2;
 
         for x in 0..size {
             for z in 0..size {
@@ -111,8 +111,8 @@ impl WorldGenerator {
 
         #[cfg(debug_assertions)]
         image::save_buffer(
-            &Path::new(&format!("noise_map.png")),
-            &*pixels,
+            Path::new(&"noise_map.png".to_string()),
+            &pixels,
             size,
             size,
             image::ColorType::L8,
