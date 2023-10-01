@@ -79,11 +79,11 @@ impl StandardMesh {
             );
         }
 
-        scene.models.first().unwrap().to_instanced_mesh(
-            logical_device,
-            material_loading,
-            instances,
-        )
+        scene
+            .models
+            .first()
+            .unwrap()
+            .to_instanced_mesh(logical_device, material_loading, instances)
     }
 
     pub fn from_raw_single(

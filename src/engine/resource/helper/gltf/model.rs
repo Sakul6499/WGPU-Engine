@@ -50,36 +50,23 @@ impl ToStandardMesh for Model {
 
         let material: Option<Box<dyn TMaterial>> = match material_loading {
             MaterialLoading::Ignore => None,
-            MaterialLoading::Try => {
-                match &self.material().pbr.base_color_texture {
-                    Some(base_color_texture) => {
-                        match DiffuseTexture::from_bytes(logical_device, base_color_texture, None)
-                        {
-                            Ok(diffuse_texture) => {
-                                match StandardMaterial::from_texture(
-                                    logical_device,
-                                    diffuse_texture,
-                                ) {
-                                    Ok(material) => Some(Box::new(material)),
-                                    Err(_) => None,
-                                }
+            MaterialLoading::Try => match &self.material().pbr.base_color_texture {
+                Some(base_color_texture) => {
+                    match DiffuseTexture::from_bytes(logical_device, base_color_texture, None) {
+                        Ok(diffuse_texture) => {
+                            match StandardMaterial::from_texture(logical_device, diffuse_texture) {
+                                Ok(material) => Some(Box::new(material)),
+                                Err(_) => None,
                             }
-                            Err(_) => None,
                         }
+                        Err(_) => None,
                     }
-                    None => None,
                 }
-            }
+                None => None,
+            },
             MaterialLoading::Replace(material) => Some(Box::new(material)),
         };
 
-        StandardMesh::from_raw(
-            None,
-            logical_device,
-            vertices,
-            indices,
-            instances,
-            material,
-        )
+        StandardMesh::from_raw(None, logical_device, vertices, indices, instances, material)
     }
 }

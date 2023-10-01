@@ -3,7 +3,7 @@ use wgpu::Color;
 use wgpu_engine::{
     app::{App, EntityTagDuplicationBehaviour, WorldBuilder},
     engine::rgb_to_f32_color,
-    entities::{CameraControllingEntity, Cheese, ClearScreenEntity, Square, MainScene},
+    entities::{CameraControllingEntity, Cheese, ClearScreenEntity, MainScene, Square},
     log::log_init,
 };
 
