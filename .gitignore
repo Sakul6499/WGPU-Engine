@@ -12,3 +12,6 @@ game-*.log
 
 # MDBook
 docs/book/
+
+# Noise Map
+noise_map.png
