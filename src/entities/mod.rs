@@ -16,5 +16,8 @@ pub use camera_controlling_entity::*;
 mod cheese;
 pub use cheese::*;
 
+mod cube;
+pub use cube::*;
+
 mod main_scene;
 pub use main_scene::*;
